@@ -1,0 +1,8 @@
+.movie{
+    list-style: none;
+    background-color: aliceblue;
+    max-width: 900px;
+    margin: auto;
+    padding: 2rem;
+    border-radius: 12px;
+}
