@@ -8,6 +8,8 @@ function MovieList(props) {
             {props.movies.map(movie=>{
                 return <Movie
                 key={movie.id}
+                id={movie.id}
+                fetchMovie={props.fetchMovie}
                 title={movie.title}
                 openingText={movie.openingText}
                 releaseDate={movie.releaseDate}/>
