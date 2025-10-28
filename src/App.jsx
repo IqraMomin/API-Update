@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState ,useEffect,useCallback} from 'react'
 import './App.css'
 import MovieList from './component/MovieList'
 
@@ -7,12 +7,16 @@ function App() {
   const [movies,setMovies] = useState([]);
   const [isLoading,setIsLoading] = useState(false);
   const [error,setError] = useState(null);
-  const fetchMoviesHandler = async ()=>{
+  const [retry,setRetry] = useState(false);
+
+
+  const fetchMoviesHandler =useCallback(async ()=>{
     setError(null);
     setIsLoading(true);
     try{
       const response = await fetch("https://swapi.dev/api/film/");
       if(!response.ok){
+        
         throw new Error("Something went wrong...Retrying");
       }
       const data = await response.json();
@@ -26,23 +30,54 @@ function App() {
       })
       setMovies(transformedData);
       setError(null);
+      setRetry(false);
       
      }catch(err){
       setError(err.message);
+      setRetry(true);
 
     }
     setIsLoading(false);
+  },[])
+
+  useEffect(()=>{
+    if(retry){
+      const timer = setTimeout(()=>{
+        fetchMoviesHandler();
+      },5000);
+      return ()=>{
+        clearTimeout(timer);
+      }
+    }
+    
+  },[fetchMoviesHandler,retry]);
+
+  let content = <p>No Movies Found</p>
+
+  if(movies.length>0){
+    content = <MovieList movies={movies}/>
   }
+
+  if(retry){
+    content = <div>
+    <p>{error}</p>
+    <button onClick={() => {
+      setRetry(false);
+      }}>Cancel</button>
+  </div>
+  }
+
+  if(isLoading){
+    content =  <p>Loading...</p>
+  }
+
   return (
     <React.Fragment>
       <section className='btn-section'>
         <button onClick={fetchMoviesHandler}>Fetch Movies</button>
       </section>
       <section>
-       {!isLoading && movies.length>0 && <MovieList movies={movies}/>}
-       {isLoading && <p>Loading...</p>}
-       {!isLoading && movies.length===0 && !error && <p>No movies Found</p>}
-       {error && <p>{error}</p>}
+       {content}
       </section>
     </React.Fragment>
   )
