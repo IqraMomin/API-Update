@@ -1,5 +1,6 @@
-.movie-list{
-    background-color: antiquewhite;
-    display: flex;
-    flex-direction: column;
-}
+.movies-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
