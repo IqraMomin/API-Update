@@ -27,3 +27,33 @@ button:active {
   background-color: #460897;
   border-color: #460897;
 }
+form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0.5rem;
+}
+label{
+  text-align: left;
+  margin: 0.5rem 0;
+  color: black;
+  font-weight: bold;
+}
+input{
+  width: 90%;
+  height: 2rem;
+  border-radius: 10px;
+  box-shadow: inset gray;
+  border: 1px solid rgb(210, 206, 206);
+  padding-left: 0.5rem;
+}
+#openingText{
+  height: 5rem;
+}
+
+form button{
+  width: 10rem;
+  margin:auto;
+  margin-top:1rem;
+  margin-bottom: 1rem;
+}

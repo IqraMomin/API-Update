@@ -7,6 +7,7 @@ function MovieList(props) {
         <ul className='movies-list'>
             {props.movies.map(movie=>{
                 return <Movie
+                key={movie.id}
                 title={movie.title}
                 openingText={movie.openingText}
                 releaseDate={movie.releaseDate}/>

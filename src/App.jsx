@@ -8,7 +8,35 @@ function App() {
   const [isLoading,setIsLoading] = useState(false);
   const [error,setError] = useState(null);
   const [retry,setRetry] = useState(false);
+  const [title,setTitle] = useState("");
+  const [openingText,setOpeningText] = useState("");
+  const [date,setDate] = useState("");
 
+  const titleChangeHandler=(e)=>{
+    setTitle(e.target.value);
+  }
+
+  const openingTextChangeHandler=(e)=>{
+    setOpeningText(e.target.value);
+  }
+
+  const dateChangeHandler=(e)=>{
+    setDate(e.target.value);
+  }
+  
+  const formSubmitHandler = (e)=>{
+    e.preventDefault();
+    const data ={
+      id:Date.now().toString(),
+      title,
+      opening_crawl:openingText,
+      release_date:date
+    }
+    setTitle("");
+    setOpeningText("");
+    setDate("");
+    console.log(data);
+  }
 
   const fetchMoviesHandler =useCallback(async ()=>{
     setError(null);
@@ -77,7 +105,19 @@ function App() {
 
   return (
     <React.Fragment>
-      <section className='btn-section'>
+      <section>
+        <form onSubmit={formSubmitHandler}>
+        <label htmlFor='title'>Title</label>
+        <input id='title' onChange={titleChangeHandler} value={title}/>
+        <label htmlFor='openingText'>Opening Text</label>
+        <input id='openingText' onChange={openingTextChangeHandler} value={openingText}/>
+        <label htmlFor='date'>Release Date</label>
+        <input id='date' onChange={dateChangeHandler} value={date}/>
+        <button type='submit'>Add Movie</button>
+        </form>
+        
+      </section>
+      <section>
         <button onClick={fetchMoviesHandler}>Fetch Movies</button>
       </section>
       <section>
